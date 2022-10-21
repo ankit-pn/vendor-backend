@@ -89,7 +89,7 @@ app.post('/getVendorItems', async (request, response) => {
     const itemIds = request.body.itemIds;
     // const itemId = request.body.itemId;
     // const quantity = request.body.quantity;
-    if (itemIds === undefined || items.length===0) {
+    if (itemIds === undefined || itemIds.length===0) {
         response.json({ "dates": "items not Found" });
     }
     else {
