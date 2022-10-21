@@ -93,8 +93,14 @@ app.post('/getVendorItems', async (request, response) => {
     else {
         const ans = [];
         for(var i=0;i<itemIds.length;i++){
-        const item = await items.find({ itemId: itemIds[i] })
-        ans.push(item[0]);
+        let item = await items.find({ itemId: itemIds[i] })
+        let test1 = {};
+        test1['itemId'] = item[0].itemId;
+        test1['quantity'] = item[0].quantity;
+        test1['vendor_wallet_address'] = '0x588138839c2ea2f767B04bCed5B7334959A60A1c';
+        // console.log(test1);
+        // console.log(test));
+        ans.push(test1);
         }
         const resp = await ans.length ? { "itemsList": ans } : { "message": "No Records Found" }
         await response.json(resp)
