@@ -42,7 +42,7 @@ app.post("/addVendorItems", async (request, response) => {
         const date = new items({
             itemId: itemId,
             quantity: quantity,
-            price:price
+            price: price
         });
 
         // save the new user
@@ -64,7 +64,7 @@ app.post("/addVendorItems", async (request, response) => {
     }
     else {
         item[0].quantity += quantity;
-        await items.findOneAndUpdate({itemId: itemId},{quantity:item[0].quantity})
+        await items.findOneAndUpdate({ itemId: itemId }, { quantity: item[0].quantity })
             .then((result) => {
                 response.status(201).send({
                     message: "items Saved Suceessfully",
@@ -89,21 +89,25 @@ app.post('/getVendorItems', async (request, response) => {
     const itemIds = request.body.itemIds;
     // const itemId = request.body.itemId;
     // const quantity = request.body.quantity;
-    if (itemIds === undefined || itemIds.length===0) {
+    if (itemIds === undefined || itemIds.length === 0) {
         response.json({ "dates": "items not Found" });
     }
     else {
         const ans = [];
-        for(var i=0;i<itemIds.length;i++){
-        let item = await items.find({ itemId: itemIds[i] })
-        let test1 = {};
-        test1['itemId'] = item[0].itemId;
-        test1['quantity'] = item[0].quantity;
-        test1['vendor_wallet_address'] = process.env.WALLAT_ADDRESS;
-        test1['price'] = item[0].price;
-        // console.log(test1);
-        // console.log(test));
-        ans.push(test1);
+        for (var i = 0; i < itemIds.length; i++) {
+            let item = await items.find({ itemId: itemIds[i] })
+            if(item===undefined)
+            continue;
+            if (item.length !== 0) {
+                let test1 = {};
+                test1['itemId'] = item[0].itemId;
+                test1['quantity'] = item[0].quantity;
+                test1['vendor_wallet_address'] = process.env.WALLAT_ADDRESS;
+                test1['price'] = item[0].price;
+                // console.log(test1);
+                // console.log(test));
+                ans.push(test1);
+            }
         }
         const resp = await ans.length ? { "itemsList": ans } : { "message": "No Records Found" }
         await response.json(resp)
