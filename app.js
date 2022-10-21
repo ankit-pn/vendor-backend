@@ -36,11 +36,13 @@ app.get("/", (request, response, next) => {
 app.post("/addVendorItems", async (request, response) => {
     const itemId = request.body.itemId;
     const quantity = request.body.quantity;
+    const price = request.body.price;
     const item = await items.find({ itemId: itemId });
     if (item.length === 0) {
         const date = new items({
             itemId: itemId,
-            quantity: quantity
+            quantity: quantity,
+            price:price
         });
 
         // save the new user
@@ -97,7 +99,8 @@ app.post('/getVendorItems', async (request, response) => {
         let test1 = {};
         test1['itemId'] = item[0].itemId;
         test1['quantity'] = item[0].quantity;
-        test1['vendor_wallet_address'] = '0x588138839c2ea2f767B04bCed5B7334959A60A1c';
+        test1['vendor_wallet_address'] = process.env.WALLAT_ADDRESS;
+        test1['price'] = item[0].price;
         // console.log(test1);
         // console.log(test));
         ans.push(test1);
