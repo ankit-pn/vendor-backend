@@ -114,6 +114,21 @@ app.post('/getVendorItems', async (request, response) => {
     }
 })
 
+app.post('/getAllVendorItems', async (request, response) => {
+    const message = request.body.message;
+    // const itemId = request.body.itemId;
+    // const quantity = request.body.quantity;
+    if (message === undefined || message !== 'pda') {
+        response.json({ "data": "message not Found" });
+    }
+    else {
+        let itemsl = await items.find();
+        console.log(itemsl);
+        const resp = await itemsl.length ? { "itemsList": itemsl } : { "message": "No items Found" }
+        await response.json(resp)
+    }
+})
+
 
 
 
